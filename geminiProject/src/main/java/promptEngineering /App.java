@@ -1,4 +1,4 @@
-package promptengineering ;
+package promptEngineering ;
 
 /**
  * Hello world!
