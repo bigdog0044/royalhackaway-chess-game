@@ -49,5 +49,11 @@ public class GameState {
 
     public Piece.PieceColor getWinner() {
         return winner;
+ }
+
+    @Override
+    public String toString() {
+        return board.toString();
     }
+     
 }

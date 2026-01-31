@@ -75,4 +75,37 @@ public class Board {
         setPieceAt(to, piece);
         setPieceAt(from, null);
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("{");
+        sb.append("\"n\":").append(boardSize).append(",");
+        sb.append("\"pieces\":[");
+        boolean first = true;
+        for (int r = 0; r < boardSize; r++) {
+            for (int c = 0; c < boardSize; c++) {
+                Piece p = grid[r][c];
+                if (p != null) {
+                    if (!first) sb.append(",");
+                    sb.append("{");
+                    sb.append("\"type\":\"").append(p.getClass().getSimpleName()).append("\",");
+                    sb.append("\"color\":\"").append(p.getColor()).append("\",");
+                    sb.append("\"symbol\":\"").append(escapeJson(p.getSymbol())).append("\",");
+                    sb.append("\"row\":").append(r).append(",");
+                    sb.append("\"col\":").append(c);
+                    sb.append("}");
+                    first = false;
+                }
+            }
+        }
+        sb.append("]");
+        sb.append("}");
+        return sb.toString();
+    }
+
+    private static String escapeJson(String s) {
+        if (s == null) return "";
+        return s.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r");
+    }
 }
