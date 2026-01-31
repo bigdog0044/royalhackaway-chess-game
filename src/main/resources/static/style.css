@@ -1,0 +1,104 @@
+body {
+    font-family: 'Press Start 2P', cursive; /* Add a retro font if available */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #1a1a1a; /* Darker background */
+    color: #00ff00; /* Green terminal text */
+    overflow: hidden; /* Prevent pseudo-elements from creating scrollbars */
+}
+
+h1 {
+    color: #00ff00;
+    text-shadow: 0 0 5px #00ff00; /* Subtle glow for title */
+}
+
+#game-container {
+    position: relative;
+    display: flex;
+    gap: 2rem;
+    padding: 20px; /* Some padding for the CRT effect boundaries */
+    background-color: #0d1a0d; /* Dark green background for the screen area */
+    border: 5px solid #333;
+    box-shadow: 0 0 30px rgba(0, 255, 0, 0.5); /* Outer glow */
+    border-radius: 8px; /* Slightly rounded corners for the screen */
+    
+    /* CRT Scanlines */
+    &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+        background-size: 100% 2px, 3px 100%; /* Horizontal scanlines, subtle vertical color bleed */
+        pointer-events: none; /* Allow interaction with elements below */
+        z-index: 10;
+        opacity: 0.7;
+    }
+
+    /* CRT Vignette/Curvature */
+    &::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: radial-gradient(ellipse at center, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.5) 100%);
+        box-shadow: inset 0 0 50px rgba(0, 255, 0, 0.2), inset 0 0 100px rgba(0, 0, 0, 0.5); /* Inner glow and dark corners */
+        pointer-events: none;
+        z-index: 11;
+        opacity: 0.7;
+        border-radius: 8px; /* Match screen curvature */
+    }
+}
+
+#info-panel {
+    color: #00e000; /* Slightly brighter green for info */
+    text-shadow: 0 0 2px #00e000;
+}
+
+#board-container {
+    display: grid;
+    grid-template-columns: repeat(8, 50px);
+    grid-template-rows: repeat(8, 50px);
+    border: 2px solid #00e000; /* Green border for the board */
+    box-shadow: 0 0 10px rgba(0, 255, 0, 0.3); /* Subtle glow */
+}
+
+.square {
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #00ff00; /* All pieces are green for terminal look */
+    text-shadow: 0 0 3px #00ff00; /* Piece glow */
+}
+
+.square.light {
+    background-color: #0a1a0a; /* Darker background for light squares */
+}
+
+.square.dark {
+    background-color: #050f05; /* Even darker background for dark squares */
+}
+
+.square.selected {
+    background-color: rgba(0, 255, 0, 0.3); /* Green selection highlight */
+    box-shadow: inset 0 0 10px #00ff00;
+}
+
+.piece {
+    cursor: pointer;
+    /* Piece color is handled by .square rule above */
+}
+
+/* Optional: Add a retro font if available in the user's environment */
+/* @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); */
+
