@@ -21,7 +21,7 @@ public class GameController {
     @PostMapping("/new-game")
     public ResponseEntity<GameState> newGame() {
         GameService.Game game = gameService.createNewGame();
-        GameState gameState = new GameState(game.getGameId(), game.getBoard(), game.getCurrentPlayer(), "New game started. White's turn.");
+        GameState gameState = new GameState(game.getGameId(), game.getBoard(), game.getCurrentPlayer(), "New game started. White's turn.", game.isGameOver(), game.getWinner());
         return ResponseEntity.ok(gameState);
     }
 
@@ -31,8 +31,29 @@ public class GameController {
         if (game == null) {
             return ResponseEntity.notFound().build();
         }
-        String message = String.format("%s's turn.", game.getCurrentPlayer());
-        GameState gameState = new GameState(game.getGameId(), game.getBoard(), game.getCurrentPlayer(), message);
+        String message = "";
+        if (game.isGameOver()) {
+            message = String.format("%s Wins!", game.getWinner());
+        } else {
+            message = String.format("%s's turn.", game.getCurrentPlayer());
+        }
+        GameState gameState = new GameState(game.getGameId(), game.getBoard(), game.getCurrentPlayer(), message, game.isGameOver(), game.getWinner());
+        return ResponseEntity.ok(gameState);
+    }
+
+    @GetMapping("/game-state/{gameId}")
+    public ResponseEntity<GameState> getGameState(@PathVariable String gameId) {
+        GameService.Game game = gameService.getGame(gameId);
+        if (game == null) {
+            return ResponseEntity.notFound().build();
+        }
+        String message = "";
+        if (game.isGameOver()) {
+            message = String.format("%s Wins!", game.getWinner());
+        } else {
+            message = String.format("%s's turn.", game.getCurrentPlayer());
+        }
+        GameState gameState = new GameState(game.getGameId(), game.getBoard(), game.getCurrentPlayer(), message, game.isGameOver(), game.getWinner());
         return ResponseEntity.ok(gameState);
     }
 }

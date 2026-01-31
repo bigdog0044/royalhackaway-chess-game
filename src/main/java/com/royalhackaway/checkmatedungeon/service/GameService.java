@@ -57,13 +57,64 @@ public class GameService {
             }
 
             if (piece.getValidMoves(board, from).contains(to)) {
+                Piece capturedPiece = board.getPieceAt(to); // Store captured piece, if any
                 board.movePiece(from, to);
+
+                // Check for Win/Loss Conditions
+                checkGameEndConditions();
+                if (isGameOver()) {
+                    // Handle game over (e.g., reward, next stage)
+                    return true;
+                }
+
                 // Switch player
                 currentPlayer = (currentPlayer == Piece.PieceColor.WHITE) ? Piece.PieceColor.BLACK : Piece.PieceColor.WHITE;
                 return true;
             }
             return false;
         }
+
+        private boolean isGameOver = false;
+        private Piece.PieceColor winner = null;
+
+        public boolean isGameOver() {
+            return isGameOver;
+        }
+
+        public Piece.PieceColor getWinner() {
+            return winner;
+        }
+
+        private void checkGameEndConditions() {
+            int whitePieces = 0;
+            int blackPieces = 0;
+
+            for (int r = 0; r < board.getBoardSize(); r++) {
+                for (int c = 0; c < board.getBoardSize(); c++) {
+                    Piece p = board.getPieceAt(new Position(r, c));
+                    if (p != null) {
+                        if (p.getColor() == Piece.PieceColor.WHITE) {
+                            whitePieces++;
+                        } else {
+                            blackPieces++;
+                        }
+                    }
+                }
+            }
+
+            if (blackPieces == 0) {
+                isGameOver = true;
+                winner = Piece.PieceColor.WHITE;
+                // Placeholder for rewards: New random piece + random powerup
+                System.out.println("White Wins! Stage Cleared. Granting rewards.");
+                // TODO: Implement logic to add new random piece and powerup
+            } else if (whitePieces == 0) {
+                isGameOver = true;
+                winner = Piece.PieceColor.BLACK;
+                System.out.println("Black Wins! Game Over."); // Player typically controls white
+            }
+        }
+
 
         public String getGameId() {
             return gameId;

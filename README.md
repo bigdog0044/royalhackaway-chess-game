@@ -27,20 +27,19 @@ A browser-based Roguelite Chess game where the player battles through procedural
     * Primary attack method is **Capture** (moving into an occupied square).
     * Pieces have defined **Attack Ranges** (e.g., Ranged units can capture without moving into the square, Melee must move).
 * **Configuration:**
-    * **Player:** Starts with a King (Hero) and random support units.
+    * **Player:** Starts with a selection of available pieces.
     * **Enemy:** Starts with a "Boss" piece and minions.
     * **Placement:** Randomized starting positions on valid tiles at opposite ends of the board.
 
 ### 3.3. Progression (The Roguelite Loop)
-* **Victory Condition:** Capture the Enemy Boss piece.
-* **Defeat Condition:** Player Hero is captured.
+* **Victory Condition:** Capture ALL of the enemy's pieces.
+* **Defeat Condition:** All player pieces are captured.
 * **Stage Rewards:**
-    * **Draft:** Choose 1 of 3 random new pieces.
-    * **Upgrade:** Choose 1 of 3 random Power-Up Scrolls (equippable items).
+    * A new random piece on the board.
+    * A random powerup from a full list of powerups.
 * **Inventory:**
     * Between stages, the player enters a "Camp" screen.
-    * Power-ups can be swapped between pieces.
-    * Maximum 1 Power-up per piece (upgradeable to 2 in later stages).
+    * Power-ups can be swapped between pieces. Each piece has a single power-up slot.
 
 ## 4. Backend Requirements (Java)
 

@@ -11,17 +11,16 @@ import java.util.Set;
     include = JsonTypeInfo.As.PROPERTY,
     property = "type")
 @JsonSubTypes({
-    @JsonSubTypes.Type(value = King.class, name = "king"),
     @JsonSubTypes.Type(value = Queen.class, name = "queen"),
     @JsonSubTypes.Type(value = Rook.class, name = "rook"),
     @JsonSubTypes.Type(value = Bishop.class, name = "bishop"),
-    @JsonSubTypes.Type(value = Knight.class, name = "knight"),
-    @JsonSubTypes.Type(value = Pawn.class, name = "pawn")
+    @JsonSubTypes.Type(value = Knight.class, name = "knight")
 })
 public abstract class Piece {
 
     protected final PieceColor color;
     protected String symbol;
+    protected PowerUp equippedPowerUp; // Power-up slot
 
     public Piece(PieceColor color) {
         this.color = color;
@@ -33,6 +32,14 @@ public abstract class Piece {
 
     public String getSymbol() {
         return symbol;
+    }
+
+    public PowerUp getEquippedPowerUp() {
+        return equippedPowerUp;
+    }
+
+    public void setEquippedPowerUp(PowerUp equippedPowerUp) {
+        this.equippedPowerUp = equippedPowerUp;
     }
 
     /**

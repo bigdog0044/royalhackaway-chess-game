@@ -8,8 +8,10 @@ public class GameState {
     private final Piece[][] board;
     private final Piece.PieceColor currentPlayer;
     private final String message; // For AI taunts or game status
+    private final boolean isGameOver;
+    private final Piece.PieceColor winner;
 
-    public GameState(String gameId, Board board, Piece.PieceColor currentPlayer, String message) {
+    public GameState(String gameId, Board board, Piece.PieceColor currentPlayer, String message, boolean isGameOver, Piece.PieceColor winner) {
         this.gameId = gameId;
         // A simplified representation of the board for the frontend
         this.board = new Piece[board.getBoardSize()][board.getBoardSize()];
@@ -20,6 +22,8 @@ public class GameState {
         }
         this.currentPlayer = currentPlayer;
         this.message = message;
+        this.isGameOver = isGameOver;
+        this.winner = winner;
     }
 
     // Getters for serialization to JSON by Spring Web
@@ -37,5 +41,13 @@ public class GameState {
 
     public String getMessage() {
         return message;
+    }
+
+    public boolean isGameOver() {
+        return isGameOver;
+    }
+
+    public Piece.PieceColor getWinner() {
+        return winner;
     }
 }
