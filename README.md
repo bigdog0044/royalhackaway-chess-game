@@ -1,0 +1,13 @@
+### Key Requirements
+- DND Style RogueLite Chess game 
+    - Square Grid Board
+    - Certain starting pieces for enemy and player 
+    - Board is jagged (places cut from a set board size), ensure that full board is connected
+    - Multiple stages
+    - Board Size increase per stage/s
+    - Power ups for each piece (swappable slots between stages)
+    - Enemy is a gemini LLM (evil AI trope)
+    - Every stage gives a new piece and a new powerup upgrade
+    - Pieces have attacking range,
+    - Attacking is via capturing
+    - Random starting configuration
