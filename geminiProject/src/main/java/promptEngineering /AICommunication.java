@@ -7,8 +7,14 @@ import com.royalhackaway.checkmatedungeon.model.Board;
 
 public class AICommunication {
 
-  public void sendPrompt(Board boardOBJ){
+  public String setupPrompt(){
     
+  }
+  public void sendPrompt(){
+    String modelId = "gemini-2.5-flash";
+    Client client = new Client();
+    Chat chatSession = client.chats.create(modelId);
+
   }
   // public static void main(String[] args) {
   //   // The client gets the API key from the environment variable `GEMINI_API_KEY`.
