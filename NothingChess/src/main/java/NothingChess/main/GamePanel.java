@@ -1,6 +1,6 @@
 package NothingChess.main;
 
-import NothingChess.piece.Piece;
+import NothingChess.piece.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -37,7 +37,8 @@ public class GamePanel extends JPanel implements Runnable {
         gameThread = new Thread(this);
         gameThread.start();
     }
-    /*public void setPieces() {
+
+    public void setPieces() {
 
         pieces.add(new Pawn(WHITE, 0, 6));
         pieces.add(new Pawn(WHITE, 1, 6));
@@ -75,7 +76,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     }
 
-     */
     private void copyPieces(ArrayList<Piece> source, ArrayList<Piece> target) {
 
         target.clear();
