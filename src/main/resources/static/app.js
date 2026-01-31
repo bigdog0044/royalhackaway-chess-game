@@ -87,6 +87,8 @@ document.addEventListener('DOMContentLoaded', () => {
             const gameState = await response.json();
             gameId = gameState.gameId;
             renderBoard(gameState);
+            let audio = new Audio('vaporwave.mp3');
+            audio.play(); // Currently doesn't loop!
         } catch (error) {
             statusMessage.textContent = error.message;
         }
