@@ -11,10 +11,6 @@
     <groupId>com.royalhackaway</groupId>
     <artifactId>checkmate-dungeon</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <modules>
-        <module>checkmate-dungeon</module>
-        <module>geminiProject</module>
-    </modules>
     <name>checkmate-dungeon</name>
     <description>Checkmate Dungeon: A Roguelite Chess Game</description>
     <properties>
@@ -33,6 +29,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+    <groupId>com.google.genai</groupId>
+    <artifactId>google-genai</artifactId>
+    <version>1.0.0</version>
+  </dependency>
     </dependencies>
 
     <build>

@@ -5,7 +5,9 @@
 /home/jambo/Documents/rhul-hack-away/royalhackaway-chess-game/src/main/java/com/royalhackaway/checkmatedungeon/model/Position.java
 /home/jambo/Documents/rhul-hack-away/royalhackaway-chess-game/src/main/java/com/royalhackaway/checkmatedungeon/model/Board.java
 /home/jambo/Documents/rhul-hack-away/royalhackaway-chess-game/src/main/java/com/royalhackaway/checkmatedungeon/model/Piece.java
+/home/jambo/Documents/rhul-hack-away/royalhackaway-chess-game/src/main/java/promptEngineering/Test.java
 /home/jambo/Documents/rhul-hack-away/royalhackaway-chess-game/src/main/java/com/royalhackaway/checkmatedungeon/model/Move.java
+/home/jambo/Documents/rhul-hack-away/royalhackaway-chess-game/src/main/java/promptEngineering/AICommunication.java
 /home/jambo/Documents/rhul-hack-away/royalhackaway-chess-game/src/main/java/com/royalhackaway/checkmatedungeon/model/pieces/Queen.java
 /home/jambo/Documents/rhul-hack-away/royalhackaway-chess-game/src/main/java/com/royalhackaway/checkmatedungeon/service/GameService.java
 /home/jambo/Documents/rhul-hack-away/royalhackaway-chess-game/src/main/java/com/royalhackaway/checkmatedungeon/controller/GameController.java
