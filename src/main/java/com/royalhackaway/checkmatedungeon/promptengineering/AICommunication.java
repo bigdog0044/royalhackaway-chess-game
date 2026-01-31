@@ -1,8 +1,7 @@
-package promptEngineering;
+package com.royalhackaway.checkmatedungeon.promptengineering;
 
 import com.google.genai.Chat;
 import com.google.genai.Client;
-import com.royalhackaway.checkmatedungeon.model.Board;
 public class AICommunication {
 
   private String setupPrompt(){
@@ -15,6 +14,7 @@ public class AICommunication {
     Client client = new Client();
     Chat chatSession = client.chats.create(modelId);
 
+    System.out.println("RUNS RUNS RUNS RUNS ");
     System.out.println(setupPrompt());
   }
   // public static void main(String[] args) {

@@ -1,8 +1,9 @@
-package promptEngineering ;
-public class Test {
-    public static void main(String[] args) {
-        AICommunication aicoms = new AICommunication();
+package com.royalhackaway.checkmatedungeon.promptengineering;
 
+public class TestAI {
+    public static void main(String[] args) {
+        System.out.println("this runs");
+        AICommunication aicoms = new AICommunication();
         aicoms.promptProcessing();
     }
 }
