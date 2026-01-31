@@ -22,7 +22,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 loader.addEventListener('transitionend', () => {
                     loader.style.display = 'none';
                     mainContent.style.display = 'flex';
-                    newGame(); // Start the game after the loader is gone
+                    
+                    newGame();
+                         // Start the game after the loader is gone
                 });
             }, 500);
         }
@@ -53,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-        ctx.fillStyle = '#0F0'; // Green text
+        ctx.fillStyle = '#FFF'; // White text
         ctx.font = fontSize + 'px monospace';
 
         for (let i = 0; i < rainDrops.length; i++) {
