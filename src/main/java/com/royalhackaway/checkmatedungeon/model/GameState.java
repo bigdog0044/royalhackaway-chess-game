@@ -49,38 +49,11 @@ public class GameState {
 
     public Piece.PieceColor getWinner() {
         return winner;
-    }
+ }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("{");
-        sb.append("\"n\":").append(board.length).append(",");
-        sb.append("\"pieces\":[");
-        boolean first = true;
-        for (int r = 0; r < board.length; r++) {
-            for (int c = 0; c < board[r].length; c++) {
-                Piece p = board[r][c];
-                if (p != null) {
-                    if (!first) sb.append(",");
-                    sb.append("{");
-                    sb.append("\"type\":\"").append(p.getClass().getSimpleName()).append("\",");
-                    sb.append("\"color\":\"").append(p.getColor()).append("\",");
-                    sb.append("\"symbol\":\"").append(escapeJson(p.getSymbol())).append("\",");
-                    sb.append("\"row\":").append(r).append(",");
-                    sb.append("\"col\":").append(c);
-                    sb.append("}");
-                    first = false;
-                }
-            }
-        }
-        sb.append("]");
-        sb.append("}");
-        return sb.toString();
+        return board.toString();
     }
-
-    private static String escapeJson(String s) {
-        if (s == null) return "";
-        return s.replace("\\", "\\\\").replace("\"", "\\\"").replace("\n", "\\n").replace("\r", "\\r");
-    }
+     
 }
