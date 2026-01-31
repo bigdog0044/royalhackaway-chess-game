@@ -11,6 +11,10 @@
     <groupId>com.royalhackaway</groupId>
     <artifactId>checkmate-dungeon</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <modules>
+        <module>checkmate-dungeon</module>
+        <module>geminiProject</module>
+    </modules>
     <name>checkmate-dungeon</name>
     <description>Checkmate Dungeon: A Roguelite Chess Game</description>
     <properties>

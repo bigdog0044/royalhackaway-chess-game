@@ -2,8 +2,7 @@ package promptEngineering;
 
 import com.google.genai.Chat;
 import com.google.genai.Client;
-//import com.royalhackaway.checkmatedungeon.model.Board;
-
+import com.royalhackaway.checkmatedungeon.model.Board;
 public class AICommunication {
 
   private String setupPrompt(){

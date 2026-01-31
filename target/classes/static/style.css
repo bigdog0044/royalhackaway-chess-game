@@ -1,22 +1,129 @@
+/* General Body & Background */
 body {
-    font-family: sans-serif;
+    font-family: 'Courier New', Courier, monospace;
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #333;
-    color: #eee;
+    background-color: #000000; /* Black background for Matrix effect */
+    color: #FFFFFF;
+    overflow: hidden;
+    margin: 0;
+    padding: 20px;
 }
 
+#matrix-canvas {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Behind all content */
+    opacity: 0.3; /* Low opacity */
+}
+
+/* Boot Loader Screen */
+#loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000;
+    color: #FFFFFF; /* White boot text */
+    text-shadow: 1px 1px 1px rgba(255,0,0,0.5), -1px -1px 1px rgba(0,0,255,0.5); /* Chromatic aberration */
+    z-index: 100;
+    padding: 20px;
+    font-size: 1.2em;
+}
+
+#boot-text p {
+    margin: 5px 0;
+}
+
+/* Main Content Wrapper */
+#main-content {
+    display: none; /* Initially hidden, shown by JS */
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+/* Title Animation */
+@keyframes flicker {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes text-pop {
+    0% { transform: scale(0.9); opacity: 0; }
+    80% { transform: scale(1.05); opacity: 1; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+h1 {
+    font-size: 3em;
+    font-weight: bold;
+    color: #FFFFFF;
+    text-shadow: 2px 2px 2px rgba(255,0,0,0.6), -2px -2px 2px rgba(0,0,255,0.6), 0 0 10px rgba(0,255,0,0.7);
+    animation: text-pop 0.5s ease-out forwards, flicker 1.5s infinite linear;
+    margin-bottom: 2rem;
+}
+
+/* Vertical Game Layout */
 #game-container {
+    position: relative;
     display: flex;
+    flex-direction: column; /* Vertical layout */
+    align-items: center;
     gap: 2rem;
+    padding: 20px;
+    background-color: rgba(20, 20, 20, 0.8); /* Semi-transparent */
+    border: 2px solid #555;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+    border-radius: 8px;
+    width: fit-content;
 }
 
+/* Info Panel & Boxes */
+#info-panel {
+    display: flex;
+    gap: 1rem;
+    width: 100%;
+    justify-content: center;
+    color: #FFFFFF; /* Ensure base color is white */
+}
+
+.info-box {
+    border: 1px solid #555;
+    padding: 10px 20px;
+    background-color: rgba(0,0,0,0.5);
+    text-align: center;
+    min-width: 200px;
+}
+
+.info-box h2 {
+    margin: 0 0 10px 0;
+    font-size: 1em;
+    color: #FFFFFF; /* White for consistency */
+    letter-spacing: 2px;
+    text-shadow: 1px 1px 1px rgba(255,0,0,0.5), -1px -1px 1px rgba(0,0,255,0.5); /* Chromatic aberration */
+}
+
+.info-box p {
+    margin: 0;
+    font-size: 1.2em;
+    font-weight: bold;
+    color: #FFFFFF; /* White for consistency */
+    text-shadow: 1px 1px 1px rgba(255,0,0,0.5), -1px -1px 1px rgba(0,0,255,0.5); /* Chromatic aberration */
+}
+
+/* Board & Pieces */
 #board-container {
     display: grid;
     grid-template-columns: repeat(8, 50px);
     grid-template-rows: repeat(8, 50px);
-    border: 2px solid #eee;
+    border: 2px solid #888;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.15);
 }
 
 .square {
@@ -25,21 +132,47 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 2rem;
+    font-size: 2.5rem; /* Larger pieces for more contrast */
+    font-weight: bold;
 }
 
 .square.light {
-    background-color: #f0d9b5;
+    background-color: #444; /* Higher contrast squares */
 }
 
 .square.dark {
-    background-color: #b58863;
+    background-color: #222;
 }
 
 .square.selected {
-    background-color: #6c9c74;
+    background-color: rgba(255, 255, 255, 0.3);
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.5);
 }
 
 .piece {
     cursor: pointer;
+    text-shadow: 1px 1px 2px rgba(255,0,0,0.7), -1px -1px 2px rgba(0,0,255,0.7); /* Stronger aberration */
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out; /* Smooth transition for normal moves */
 }
+
+/* Capture Glow Animation */
+@keyframes captureGlow {
+    0% {
+        background-color: transparent;
+        box-shadow: inset 0 0 0px rgba(255, 0, 0, 0);
+    }
+    50% {
+        background-color: rgba(255, 0, 0, 0.4);
+        box-shadow: inset 0 0 15px rgba(255, 0, 0, 0.8);
+    }
+    100% {
+        background-color: transparent;
+        box-shadow: inset 0 0 0px rgba(255, 0, 0, 0);
+    }
+}
+
+.capture-glow {
+    animation: captureGlow 0.5s ease-out; /* Apply animation for 0.6 seconds */
+}
+
+

@@ -7,14 +7,37 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <h1>Checkmate Dungeon</h1>
-    <div id="game-container">
-        <div id="board-container"></div>
-        <div id="info-panel">
-            <p>Status: <span id="status-message">Loading...</span></p>
-            <p>Current Player: <span id="current-player"></span></p>
+    <canvas id="matrix-canvas"></canvas>
+
+    <div id="loader">
+        <div id="boot-text">
+            <p>CM_DOS v1.0 Booting...</p>
+            <p>Initializing Memory......... [OK]</p>
+            <p>Detecting CPU............. [OK]</p>
+            <p>Loading Game Logic........ [OK]</p>
+            <p>Establishing AI link...... [OK]</p>
+            <p>Rendering CRT Interface... [OK]</p>
+            <p>Welcome to Checkmate Dungeon.</p>
         </div>
     </div>
+
+    <div id="main-content" style="display: none;">
+        <h1>Checkmate Dungeon</h1>
+        <div id="game-container">
+            <div id="board-container"></div>
+            <div id="info-panel">
+                <div class="info-box">
+                    <h2>STATUS</h2>
+                    <p id="status-message">Loading...</p>
+                </div>
+                <div class="info-box">
+                    <h2>CURRENT PLAYER</h2>
+                    <p id="current-player"></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <script src="app.js"></script>
 </body>
 </html>
