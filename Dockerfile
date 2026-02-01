@@ -18,16 +18,16 @@ RUN mvn package -DskipTests
 
 # Stage 2: Create the final lightweight production image
 # This stage uses a minimal JRE image to reduce the final image size.
-FROM eclipse-temurin:17-jre-alpine
+FROM eclipse-temurin:17-jdk
 
 # Set the working directory
 WORKDIR /app
 
 # Copy the JAR file from the 'builder' stage
-COPY --from=builder /app/target/*.jar app.jar
+COPY --from=builder /app/target/*.jar /app/app.jar
 
 # Expose the port that the Spring Boot application runs on
 EXPOSE 8080
 
-# The command to run the application when the container starts
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Use classpath invocation with the added AppStarter class (avoids missing Main-Class manifest)
+ENTRYPOINT ["java","-cp","/app/app.jar","com.royalhackaway.checkmatedungeon.CheckmateDungeonApplication"]

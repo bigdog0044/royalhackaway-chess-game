@@ -46,6 +46,15 @@
                     <skip>true</skip>
                 </configuration>
             </plugin>
+
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <mainClass>com.royalhackaway.checkmatedungeon.CheckmateDungeonApplication</mainClass>
+                    <layout>JAR</layout>
+                </configuration>
+            </plugin>
         <plugin>
             <groupId>org.codehaus.mojo</groupId>
             <artifactId>exec-maven-plugin</artifactId>
