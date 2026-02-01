@@ -1,14 +1,15 @@
 package com.royalhackaway.checkmatedungeon.model;
 
-import com.royalhackaway.checkmatedungeon.model.powerups.BootsOfSpeedPowerUp;
-import com.royalhackaway.checkmatedungeon.model.powerups.HeavyArmorPowerUp;
-import com.royalhackaway.checkmatedungeon.model.powerups.OmniSlashPowerUp;
-import com.royalhackaway.checkmatedungeon.model.powerups.ExtraMovePowerUp;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
+
+import com.royalhackaway.checkmatedungeon.model.powerups.BootsOfSpeedPowerUp;
+import com.royalhackaway.checkmatedungeon.model.powerups.ExtraMovePowerUp;
+import com.royalhackaway.checkmatedungeon.model.powerups.HeavyArmorPowerUp;
+import com.royalhackaway.checkmatedungeon.model.powerups.OmniSlashPowerUp;
+import com.royalhackaway.checkmatedungeon.promptengineering.AICommunication;
 
 /*
   Consolidated Game implementation. Kept intentionally minimal and deterministic
@@ -35,6 +36,9 @@ public class Game {
 	// Extra-move flag used by ExtraMovePowerUp
 	private boolean hasExtraMove = false;
 
+	// AI communication for Gemini-powered moves
+	private AICommunication aiCommunication;
+
 	// --- Constructors ---
 	public Game() {
 		this(java.util.UUID.randomUUID().toString());
@@ -42,6 +46,7 @@ public class Game {
 
 	public Game(String gameId) {
 		this.gameId = gameId;
+		this.aiCommunication = new AICommunication();
 		this.stage = 1;
 		this.board = new Board(6);
 		this.board.setupInitialBoard();
@@ -150,13 +155,42 @@ public class Game {
 		}
 	}
 
-	/**
-	 * Deterministic, simple AI for testing: try to activate a ready power-up,
-	 * then pick the first available legal move (deterministic pseudo-random).
+	/**Gemini-powered AI turn: Get move from AICommunication, then execute it.
+	 * Falls back to simple random move if Gemini fails.
 	 */
 	public void performAITurn() {
 		if (isGameOver()) return;
-		Random rand = new Random(0xC0FFEE); // deterministic
+		
+		// Try to get move from Gemini AI
+		Move aiMove = null;
+		try {
+			aiMove = aiCommunication.getAIMove(board);
+		} catch (Exception e) {
+			System.err.println("Gemini AI failed: " + e.getMessage());
+			setMessage("AI error, using fallback move");
+		}
+		
+		// If we got a valid move from Gemini, execute it
+		if (aiMove != null && board.isValid(aiMove.getFrom()) && board.isValid(aiMove.getTo())) {
+			Piece mover = board.getPieceAt(aiMove.getFrom());
+			if (mover != null && mover.getColor() == Piece.PieceColor.BLACK) {
+				Set<Position> validMoves = mover.getValidMoves(board, aiMove.getFrom());
+				if (validMoves.contains(aiMove.getTo())) {
+					movePieceWithCapture(aiMove.getFrom(), aiMove.getTo());
+					// Display AI's taunt if available
+					if (aiMove.getTaunt() != null && !aiMove.getTaunt().isEmpty()) {
+						setMessage("AI: " + aiMove.getTaunt());
+					} else {
+						setMessage("AI made a move!");
+					}
+					currentPlayer = Piece.PieceColor.WHITE;
+					return;
+				}
+			}
+		}
+		
+		// Fallback: Simple random move if Gemini move is invalid
+		Random rand = new Random(0xC0FFEE);
 		for (int r = 0; r < board.getBoardSize(); r++) {
 			for (int c = 0; c < board.getBoardSize(); c++) {
 				Position pos = new Position(r, c);
