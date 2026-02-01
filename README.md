@@ -1,3 +1,7 @@
+Use this command to run the game
+
+sudo docker build -t checkmate-dungeon . && sudo docker run -p 8080:8080 checkmate-dungeon
+
 # Project Name: Checkmate Dungeon (Working Title)
 
 ## 1. Executive Summary
