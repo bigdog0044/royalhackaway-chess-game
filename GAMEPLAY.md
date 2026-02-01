@@ -12,7 +12,6 @@
         - Stages 1-3 are standard combat encounters against AI.
         - Stage 4 of each ante is a "Boss Battle" with increased difficulty.
         - Completing the 8th ante results in a GAME WON state.
-        - An optional "Endless Mode" is unlocked after winning the game.
     - **Board Growth**: At the start of each new ante, the board dynamically grows by one row and one column. This growth adds new empty squares, making the battlefield larger and changing strategic possibilities.
 ## In Game
 ### Player Turn
@@ -54,9 +53,4 @@
     3.  **A Queen**: Automatically adds a Queen piece to the player's reserve. This is a highly valuable reward due to the Queen's versatile movement capabilities. If the player already has a Queen, they might instead receive an upgrade to an existing Queen's power-up or a unique Queen-specific legendary spell.
 
 ## Win Conditions
-- **Campaign Victory**: Successfully completing all 4 stages of Ante 8. This means defeating the final Boss in Ante 8. Upon victory, the player is given the option to start "Endless Mode."
-- **Endless Mode**: After achieving Campaign Victory, players can continue playing in an ever-increasingly difficult "Endless Mode." The goal here is to survive as many antes as possible, setting high scores. There is no ultimate "win" condition in Endless Mode, only survival.
-
-## Lose Condition
-- **Lose all pieces**: The primary lose condition is the capture of the player's pieces
-]- **Game Resets**: Upon losing, all progress is reset, and the player must start a new game from Ante 1.
+- **Campaign Victory**: Successfully completing all 4 stages of Ante 8. This means defeating the final Boss in Ante 8.
