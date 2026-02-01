@@ -29,5 +29,5 @@ COPY --from=builder /app/target/*.jar /app/app.jar
 # Expose the port that the Spring Boot application runs on
 EXPOSE 8080
 
-# Use classpath invocation with the added AppStarter class (avoids missing Main-Class manifest)
-ENTRYPOINT ["java","-cp","/app/app.jar","com.royalhackaway.checkmatedungeon.CheckmateDungeonApplication"]
+# Run the Spring Boot application using the JAR file
+ENTRYPOINT ["java","-jar","/app/app.jar"]

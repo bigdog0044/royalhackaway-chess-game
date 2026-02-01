@@ -9,7 +9,7 @@
 <body>
     <canvas id="matrix-canvas"></canvas>
 
-    <div id="loader" style="display:none;">
+    <div id="loader">
         <div id="boot-text">
             <p>CM_DOS v1.0 Booting...</p>
             <p>Initializing Memory......... [OK]</p>
@@ -18,14 +18,6 @@
             <p>Establishing AI link...... [OK]</p>
             <p>Rendering CRT Interface... [OK]</p>
             <p>Welcome to Checkmate Dungeon.</p>
-        </div>
-    </div>
-
-    <div id="splash">
-        <div class="splash-content">
-            <h2>Checkmate Dungeon</h2>
-            <p>Press Play to begin</p>
-            <button id="play-button" class="play-btn">Play</button>
         </div>
     </div>
 
@@ -42,10 +34,14 @@
                     <h2>CURRENT PLAYER</h2>
                     <p id="current-player"></p>
                 </div>
+                <div class="info-box">
+                    <h2>TEST</h2>
+                    <label><input type="checkbox" id="control-ai"> Control Enemy (BLACK)</label>
+                </div>
             </div>
         </div>
     </div>
-    <audio id="bg-audio" src="vaporwave.mp3" preload="auto" loop>
+    <audio controls src="vaporwave.mp3" autoplay loop>
         Your browser does not support the audio element.
     </audio>
     <script src="app.js"></script>
