@@ -33,37 +33,28 @@ public class Board {
     }
 
     public void setupInitialBoard() {
-        // Clear board and voidTiles
-        Random rand = new Random();
+        // Clear board
         for (int r = 0; r < boardSize; r++) {
             for (int c = 0; c < boardSize; c++) {
                 grid[r][c] = null;
-                // 20% chance to be a void tile, but never for starting/ending rows
-                if (r != 0 && r != boardSize-1 && c != 0 && c != boardSize-1 && rand.nextDouble() < 0.2) {
-                    voidTiles[r][c] = true;
-                } else {
-                    voidTiles[r][c] = false;
-                }
             }
         }
 
-        // Player pieces (WHITE) - only if not void
-        if (boardSize > 5) {
-            if (!voidTiles[0][0]) grid[0][0] = new Rook(Piece.PieceColor.WHITE);
-            if (!voidTiles[0][5]) grid[0][5] = new Rook(Piece.PieceColor.WHITE);
-            if (!voidTiles[0][1]) grid[0][1] = new Knight(Piece.PieceColor.WHITE);
-            if (!voidTiles[0][4]) grid[0][4] = new Knight(Piece.PieceColor.WHITE);
-            if (!voidTiles[0][2]) grid[0][2] = new Bishop(Piece.PieceColor.WHITE);
-            if (!voidTiles[0][3]) grid[0][3] = new Bishop(Piece.PieceColor.WHITE);
+        // Player pieces (WHITE)
+        grid[0][0] = new Rook(Piece.PieceColor.WHITE);
+        grid[0][5] = new Rook(Piece.PieceColor.WHITE);
+        grid[0][1] = new Knight(Piece.PieceColor.WHITE);
+        grid[0][4] = new Knight(Piece.PieceColor.WHITE);
+        grid[0][2] = new Bishop(Piece.PieceColor.WHITE);
+        grid[0][3] = new Bishop(Piece.PieceColor.WHITE);
 
-            // AI pieces (BLACK)
-            if (!voidTiles[5][0]) grid[5][0] = new Rook(Piece.PieceColor.BLACK);
-            if (!voidTiles[5][5]) grid[5][5] = new Rook(Piece.PieceColor.BLACK);
-            if (!voidTiles[5][1]) grid[5][1] = new Knight(Piece.PieceColor.BLACK);
-            if (!voidTiles[5][4]) grid[5][4] = new Knight(Piece.PieceColor.BLACK);
-            if (!voidTiles[5][2]) grid[5][2] = new Bishop(Piece.PieceColor.BLACK);
-            if (!voidTiles[5][3]) grid[5][3] = new Bishop(Piece.PieceColor.BLACK);
-        }
+        // AI pieces (BLACK)
+        grid[5][0] = new Rook(Piece.PieceColor.BLACK);
+        grid[5][5] = new Rook(Piece.PieceColor.BLACK);
+        grid[5][1] = new Knight(Piece.PieceColor.BLACK);
+        grid[5][4] = new Knight(Piece.PieceColor.BLACK);
+        grid[5][2] = new Bishop(Piece.PieceColor.BLACK);
+        grid[5][3] = new Bishop(Piece.PieceColor.BLACK);
     }
     
     // NOTE: The procedural generation for the "jagged" board is complex
@@ -88,15 +79,6 @@ public class Board {
         int r = pos.getRow();
         int c = pos.getCol();
         return r >= 0 && r < boardSize && c >= 0 && c < boardSize && !voidTiles[r][c];
-    }
-
-    public boolean[][] getVoidTiles() {
-        // Defensive copy
-        boolean[][] copy = new boolean[boardSize][boardSize];
-        for (int r = 0; r < boardSize; r++) {
-            System.arraycopy(voidTiles[r], 0, copy[r], 0, boardSize);
-        }
-        return copy;
     }
     
     public void movePiece(Position from, Position to) {

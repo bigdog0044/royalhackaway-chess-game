@@ -36,7 +36,7 @@ public class Rook extends Piece {
                 Position newPos = new Position(newRow, newCol);
 
                 if (!board.isValid(newPos)) {
-                    break; // Stop if off board or void
+                    break; // Stop if off board
                 }
 
                 Piece pieceAtNewPos = board.getPieceAt(newPos);

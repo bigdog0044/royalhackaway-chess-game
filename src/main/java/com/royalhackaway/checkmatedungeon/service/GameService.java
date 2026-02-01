@@ -42,25 +42,14 @@ public class GameService {
                 game.getCurrentFlowState(),
                 game.getAvailableRewards(),
                 game.getPowerUpToSacrifice(),
-                game.getWhitePlayer(),
-                game.getStage()
+                game.getWhitePlayer()
         );
     }
 
     public GameState processMove(String gameId, Move move) {
         Game game = getGame(gameId);
         if (game != null) {
-            Piece.PieceColor prevWinner = game.getWinner();
-            boolean wasGameOver = game.isGameOver();
             game.makeMove(move.getFrom(), move.getTo());
-            // Check for win/loss and handle stage progression
-            if (!wasGameOver && game.isGameOver()) {
-                if (game.getWinner() == Piece.PieceColor.WHITE) {
-                    game.advanceStage();
-                } else if (game.getWinner() == Piece.PieceColor.BLACK) {
-                    game.resetStage();
-                }
-            }
         }
         return getCompleteGameState(gameId);
     }
