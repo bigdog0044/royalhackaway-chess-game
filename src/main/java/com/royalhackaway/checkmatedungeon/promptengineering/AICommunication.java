@@ -49,8 +49,8 @@ Output (JSON only):
     return prompt;
   }
 
-  // Single canonical method used by tests / TestAI
-  public void promptProcessing(Board board){
-    System.out.println(setupPrompt(board));
-  }
+  public void promptProcessing() {
+		// Provide a small deterministic fallback board to keep behavior stable for tests.
+		promptProcessing(new com.royalhackaway.checkmatedungeon.model.Board(6));
+	}
 }

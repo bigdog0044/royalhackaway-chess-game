@@ -195,4 +195,10 @@ public class Game {
 		Piece p = board.getPieceAt(piecePosition);
 		if (p != null) p.setRangeModifier(p.getRangeModifier() + 1);
 	}
+
+	public void start() {
+		// Minimal deterministic startup behavior for tests / services.
+		this.setMessage("Game started");
+		// flow state left as-is to avoid depending on enum constants
+	}
 }

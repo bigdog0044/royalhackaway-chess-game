@@ -25,6 +25,9 @@ public abstract class Piece {
     // Concrete subclasses set this (`this.pieceType = PieceType.ROOK;` etc.)
     protected com.royalhackaway.checkmatedungeon.model.pieces.PieceType pieceType;
 
+    // One-hit shield (HeavyArmorPowerUp)
+    private boolean oneHitShield = false;
+
     public Piece(PieceColor color) {
         this.color = color;
         this.rangeModifier = 0; // Default no range modification
@@ -56,6 +59,14 @@ public abstract class Piece {
 
     public void setRangeModifier(int rangeModifier) {
         this.rangeModifier = rangeModifier;
+    }
+
+    public boolean hasOneHitShield() {
+        return oneHitShield;
+    }
+
+    public void setOneHitShield(boolean v) {
+        this.oneHitShield = v;
     }
 
     /**
