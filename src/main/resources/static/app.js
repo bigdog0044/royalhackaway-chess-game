@@ -35,21 +35,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('matrix-canvas');
     const ctx = canvas.getContext('2d');
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
     const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
     const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const nums = '0123456789';
     const alphabet = katakana + latin + nums;
 
     const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    const rainDrops = [];
+    let columns = 0;
+    let rainDrops = [];
 
-    for (let x = 0; x < columns; x++) {
-        rainDrops[x] = 1;
+    function resizeMatrix() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        columns = Math.max(1, Math.floor(canvas.width / fontSize));
+        rainDrops = new Array(columns).fill(1);
     }
+
+    // Initialize and keep canvas in sync with window size
+    window.addEventListener('resize', resizeMatrix);
+    resizeMatrix();
 
     const drawMatrix = () => {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';

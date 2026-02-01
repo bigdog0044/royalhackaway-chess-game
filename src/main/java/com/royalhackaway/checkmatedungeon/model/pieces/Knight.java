@@ -3,6 +3,7 @@ package com.royalhackaway.checkmatedungeon.model.pieces;
 import com.royalhackaway.checkmatedungeon.model.Board;
 import com.royalhackaway.checkmatedungeon.model.Piece;
 import com.royalhackaway.checkmatedungeon.model.Position;
+import com.royalhackaway.checkmatedungeon.model.pieces.PieceType;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -12,6 +13,7 @@ public class Knight extends Piece {
     public Knight(PieceColor color) {
         super(color);
         this.symbol = color == PieceColor.WHITE ? "♘" : "♞";
+        this.pieceType = PieceType.KNIGHT;
     }
 
     @Override

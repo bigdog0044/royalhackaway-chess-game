@@ -2,8 +2,8 @@ package com.royalhackaway.checkmatedungeon.promptengineering;
 
 import com.google.genai.Chat;
 import com.google.genai.Client;
-import com.google.genai.GeneratedResponse;
 import com.royalhackaway.checkmatedungeon.model.Board;
+
 public class AICommunication {
   private boolean isFirstPrompt = false;
   private String setupPrompt(){
@@ -39,25 +39,18 @@ Output (JSON only):
       isFirstPrompt = true;
     }
 
-    GeneratedResponse response = chatSession.sendMessage("Decide what to do next based on the current board stattus: " + board.toString());
+    chatSession.sendMessage("Decide what to do next based on the current board stattus: " + board.toString());
   }
-  // public static void main(String[] args) {
-  //   // The client gets the API key from the environment variable `GEMINI_API_KEY`.
-  //   Client client = new Client();
-  //   //uses to select the model
-  //   String modelId = "gemini-2.5-flash";
 
-  //   //creates a chat session in which it remembers previous conversations
-  //   Chat chatSession = client.chats.create(modelId);
+  private String setupPrompt(Board board){
+    // Create a short board-aware prompt (future: serialize board to compact notation)
+    String prompt = "Board state for debugging: " + (board != null ? board.toString() : "no-board") + "\n";
+    prompt += "Provide a taunt only (no powerup/move logic).";
+    return prompt;
+  }
 
-  //   //this is the message sending stage
-
-  //   // 2. Send first message
-  //       chatSession.sendMessage("My favorite color is Blue.");
-
-  //   // 3. Send second message - the AI will remember!
-  //   GenerateContentResponse response = chatSession.sendMessage("What is my favorite color?");
-        
-  //   System.out.println(response.text()); // Output: "Your favorite color is Blue."
-  // }
+  // Single canonical method used by tests / TestAI
+  public void promptProcessing(Board board){
+    System.out.println(setupPrompt(board));
+  }
 }

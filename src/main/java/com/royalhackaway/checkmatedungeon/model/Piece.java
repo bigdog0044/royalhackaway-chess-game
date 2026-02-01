@@ -21,9 +21,17 @@ public abstract class Piece {
     protected final PieceColor color;
     protected String symbol;
     protected PowerUp equippedPowerUp; // Power-up slot
+    protected int rangeModifier; // Modifier for movement range
+    // Concrete subclasses set this (`this.pieceType = PieceType.ROOK;` etc.)
+    protected com.royalhackaway.checkmatedungeon.model.pieces.PieceType pieceType;
 
     public Piece(PieceColor color) {
         this.color = color;
+        this.rangeModifier = 0; // Default no range modification
+    }
+
+    public com.royalhackaway.checkmatedungeon.model.pieces.PieceType getPieceType() {
+        return pieceType;
     }
 
     public PieceColor getColor() {
@@ -40,6 +48,14 @@ public abstract class Piece {
 
     public void setEquippedPowerUp(PowerUp equippedPowerUp) {
         this.equippedPowerUp = equippedPowerUp;
+    }
+
+    public int getRangeModifier() {
+        return rangeModifier;
+    }
+
+    public void setRangeModifier(int rangeModifier) {
+        this.rangeModifier = rangeModifier;
     }
 
     /**

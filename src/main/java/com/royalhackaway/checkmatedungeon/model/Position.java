@@ -3,8 +3,14 @@ package com.royalhackaway.checkmatedungeon.model;
 import java.util.Objects;
 
 public class Position {
-    private final int row;
-    private final int col;
+    private int row;
+    private int col;
+
+    // Default constructor required for Jackson deserialization
+    public Position() {
+        this.row = 0;
+        this.col = 0;
+    }
 
     public Position(int row, int col) {
         this.row = row;
@@ -17,6 +23,15 @@ public class Position {
 
     public int getCol() {
         return col;
+    }
+
+    // Setters required for Jackson
+    public void setRow(int row) {
+        this.row = row;
+    }
+
+    public void setCol(int col) {
+        this.col = col;
     }
 
     @Override

@@ -6,9 +6,9 @@ import java.util.*;
 
 public class Board {
 
-    private final int boardSize;
-    private final Piece[][] grid;
-    private final boolean[][] voidTiles;
+    private int boardSize;
+    private Piece[][] grid;
+    private boolean[][] voidTiles;
 
     public Board(int size) {
         this.boardSize = size;
@@ -16,7 +16,23 @@ public class Board {
         this.voidTiles = new boolean[size][size];
     }
 
-    public void setupStandardBoard() {
+    public void grow() {
+        int newSize = boardSize + 1;
+        Piece[][] newGrid = new Piece[newSize][newSize];
+        boolean[][] newVoidTiles = new boolean[newSize][newSize];
+
+        for (int r = 0; r < boardSize; r++) {
+            for (int c = 0; c < boardSize; c++) {
+                newGrid[r][c] = grid[r][c];
+            }
+        }
+
+        this.boardSize = newSize;
+        this.grid = newGrid;
+        this.voidTiles = newVoidTiles;
+    }
+
+    public void setupInitialBoard() {
         // Clear board
         for (int r = 0; r < boardSize; r++) {
             for (int c = 0; c < boardSize; c++) {
@@ -24,26 +40,21 @@ public class Board {
             }
         }
 
-        // Setup pieces for a simplified 8x8 board without Kings and Pawns
-        if (boardSize == 8) {
-            // Black pieces
-            grid[0][0] = new Rook(Piece.PieceColor.BLACK);
-            grid[0][1] = new Knight(Piece.PieceColor.BLACK);
-            grid[0][2] = new Bishop(Piece.PieceColor.BLACK);
-            grid[0][3] = new Queen(Piece.PieceColor.BLACK);
-            grid[0][4] = new Rook(Piece.PieceColor.BLACK); // Extra Rook
-            grid[0][5] = new Knight(Piece.PieceColor.BLACK); // Extra Knight
-            grid[0][6] = new Bishop(Piece.PieceColor.BLACK); // Extra Bishop
-            
-            // White pieces
-            grid[7][0] = new Rook(Piece.PieceColor.WHITE);
-            grid[7][1] = new Knight(Piece.PieceColor.WHITE);
-            grid[7][2] = new Bishop(Piece.PieceColor.WHITE);
-            grid[7][3] = new Queen(Piece.PieceColor.WHITE);
-            grid[7][4] = new Rook(Piece.PieceColor.WHITE); // Extra Rook
-            grid[7][5] = new Knight(Piece.PieceColor.WHITE); // Extra Knight
-            grid[7][6] = new Bishop(Piece.PieceColor.WHITE); // Extra Bishop
-        }
+        // Player pieces (WHITE)
+        grid[0][0] = new Rook(Piece.PieceColor.WHITE);
+        grid[0][5] = new Rook(Piece.PieceColor.WHITE);
+        grid[0][1] = new Knight(Piece.PieceColor.WHITE);
+        grid[0][4] = new Knight(Piece.PieceColor.WHITE);
+        grid[0][2] = new Bishop(Piece.PieceColor.WHITE);
+        grid[0][3] = new Bishop(Piece.PieceColor.WHITE);
+
+        // AI pieces (BLACK)
+        grid[5][0] = new Rook(Piece.PieceColor.BLACK);
+        grid[5][5] = new Rook(Piece.PieceColor.BLACK);
+        grid[5][1] = new Knight(Piece.PieceColor.BLACK);
+        grid[5][4] = new Knight(Piece.PieceColor.BLACK);
+        grid[5][2] = new Bishop(Piece.PieceColor.BLACK);
+        grid[5][3] = new Bishop(Piece.PieceColor.BLACK);
     }
     
     // NOTE: The procedural generation for the "jagged" board is complex
@@ -74,6 +85,38 @@ public class Board {
         Piece piece = getPieceAt(from);
         setPieceAt(to, piece);
         setPieceAt(from, null);
+    }
+
+    public void addPiece(Piece piece, Position pos) {
+        if (isValid(pos)) {
+            grid[pos.getRow()][pos.getCol()] = piece;
+        }
+    }
+
+    public void addAIPiecesForNewAnte(int ante, int stage) {
+        // Place new AI pieces on the last row of the grown board
+        int lastRow = boardSize - 1;
+
+        if (stage == 4) { // Boss Battle
+            // Add a Queen for boss battles
+            addPiece(new Queen(Piece.PieceColor.BLACK), new Position(lastRow, 0));
+            // Add more pieces or stronger pieces
+            addPiece(new Rook(Piece.PieceColor.BLACK), new Position(lastRow, 1));
+            addPiece(new Knight(Piece.PieceColor.BLACK), new Position(lastRow, 2));
+            addPiece(new Bishop(Piece.PieceColor.BLACK), new Position(lastRow, 3));
+        } else { // Normal stages
+            // Rook: (lastRow,0), (lastRow,5)
+            addPiece(new Rook(Piece.PieceColor.BLACK), new Position(lastRow, 0));
+            addPiece(new Rook(Piece.PieceColor.BLACK), new Position(lastRow, 5));
+
+            // Knight: (lastRow,1), (lastRow,4)
+            addPiece(new Knight(Piece.PieceColor.BLACK), new Position(lastRow, 1));
+            addPiece(new Knight(Piece.PieceColor.BLACK), new Position(lastRow, 4));
+
+            // Bishop: (lastRow,2), (lastRow,3)
+            addPiece(new Bishop(Piece.PieceColor.BLACK), new Position(lastRow, 2));
+            addPiece(new Bishop(Piece.PieceColor.BLACK), new Position(lastRow, 3));
+        }
     }
 
     @Override
