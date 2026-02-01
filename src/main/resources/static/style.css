@@ -84,6 +84,36 @@ body {
 
 .play-btn:hover { opacity: 0.95; }
 
+/* Mute Button */
+.mute-btn {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid #444;
+    border-radius: 4px;
+    color: #fff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    z-index: 150;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+}
+
+.mute-btn:hover {
+    background: rgba(0,0,0,0.8);
+    border-color: #666;
+}
+
+.mute-btn.muted {
+    opacity: 0.6;
+}
+
 /* Main Content Wrapper */
 #main-content {
     display: none; /* Initially hidden, shown by JS */

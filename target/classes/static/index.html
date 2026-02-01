@@ -9,7 +9,7 @@
 <body>
     <canvas id="matrix-canvas"></canvas>
 
-    <div id="loader">
+    <div id="loader" style="display:none;">
         <div id="boot-text">
             <p>CM_DOS v1.0 Booting...</p>
             <p>Initializing Memory......... [OK]</p>
@@ -20,6 +20,15 @@
             <p>Welcome to Checkmate Dungeon.</p>
         </div>
     </div>
+
+    <div id="splash">
+        <div class="splash-content">
+            <h2>Checkmate Dungeon</h2>
+            <p>Press Play to begin</p>
+            <button id="play-button" class="play-btn">Play</button>
+        </div>
+    </div>
+
 
     <div id="main-content" style="display: none;">
         <h1>Checkmate Dungeon</h1>
@@ -36,8 +45,11 @@
                 </div>
             </div>
         </div>
+        <button id="mute-button" class="mute-btn" title="Mute/Unmute">🔊</button>
     </div>
-
+    <audio id="bg-audio" src="vaporwave.mp3" preload="auto" loop>
+        Your browser does not support the audio element.
+    </audio>
     <script src="app.js"></script>
 </body>
 </html>

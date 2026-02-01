@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 loader.addEventListener('transitionend', () => {
                     loader.style.display = 'none';
                     mainContent.style.display = 'flex';
+                    muteButton.style.display = 'flex';
                     
                     newGame();
                          // Start the game after the loader is gone
@@ -178,6 +179,47 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Initialize ---
     setInterval(drawMatrix, 50); // Start Matrix rain
-    showNextLine(); // Start boot sequence
+    // Show splash first; start boot sequence after user interaction to allow audio playback
+    const splash = document.getElementById('splash');
+    const playButton = document.getElementById('play-button');
+    const bgAudio = document.getElementById('bg-audio');
+
+    function startGame() {
+        // play audio (user gesture enabled)
+        if (bgAudio) {
+            bgAudio.play().catch(() => {});
+        }
+        // hide splash and show loader, then start boot sequence
+        if (splash) {
+            splash.style.transition = 'opacity 0.25s';
+            splash.style.opacity = '0';
+            splash.addEventListener('transitionend', () => {
+                splash.style.display = 'none';
+                loader.style.display = 'block';
+                showNextLine();
+            }, { once: true });
+        } else {
+            loader.style.display = 'block';
+            showNextLine();
+        }
+    }
+
+    // Mute button logic
+    const muteButton = document.getElementById('mute-button');
+    if (muteButton) {
+        muteButton.addEventListener('click', () => {
+            if (bgAudio) {
+                bgAudio.muted = !bgAudio.muted;
+                muteButton.classList.toggle('muted');
+                muteButton.textContent = bgAudio.muted ? '🔇' : '🔊';
+            }
+        });
+    }
+
+    if (playButton) playButton.addEventListener('click', startGame);
+    if (splash) splash.addEventListener('click', (e) => {
+        // prevent double-trigger when clicking the button
+        if (e.target !== playButton) startGame();
+    });
 
 });

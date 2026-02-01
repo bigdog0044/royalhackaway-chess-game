@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 loader.addEventListener('transitionend', () => {
                     loader.style.display = 'none';
                     mainContent.style.display = 'flex';
+                    muteButton.style.display = 'flex';
                     
                     newGame();
                          // Start the game after the loader is gone
@@ -201,6 +202,18 @@ document.addEventListener('DOMContentLoaded', () => {
             loader.style.display = 'block';
             showNextLine();
         }
+    }
+
+    // Mute button logic
+    const muteButton = document.getElementById('mute-button');
+    if (muteButton) {
+        muteButton.addEventListener('click', () => {
+            if (bgAudio) {
+                bgAudio.muted = !bgAudio.muted;
+                muteButton.classList.toggle('muted');
+                muteButton.textContent = bgAudio.muted ? '🔇' : '🔊';
+            }
+        });
     }
 
     if (playButton) playButton.addEventListener('click', startGame);
