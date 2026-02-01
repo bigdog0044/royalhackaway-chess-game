@@ -29,7 +29,7 @@ public class Knight extends Piece {
             int newRow = r + rowOffsets[i];
             int newCol = c + colOffsets[i];
             Position newPos = new Position(newRow, newCol);
-
+            // Only allow if not void and not jumping to a void
             if (board.isValid(newPos) && (board.getPieceAt(newPos) == null || board.getPieceAt(newPos).getColor() != this.color)) {
                 validMoves.add(newPos);
             }

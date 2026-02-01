@@ -29,6 +29,9 @@ public class Game {
 	private PowerUp powerUpToSacrifice = null;
 	private Player whitePlayer = null;
 
+    // Stage progression: 1-based, starts at 1
+    private int stage = 1;
+
 	// Extra-move flag used by ExtraMovePowerUp
 	private boolean hasExtraMove = false;
 
@@ -39,9 +42,13 @@ public class Game {
 
 	public Game(String gameId) {
 		this.gameId = gameId;
+		this.stage = 1;
 		this.board = new Board(6);
 		this.board.setupInitialBoard();
+		equipAIPieces();
+	}
 
+	private void equipAIPieces() {
 		// Equip black pieces with simple power-ups for deterministic testing
 		List<PowerUp> pool = List.of(
 				new BootsOfSpeedPowerUp(),
@@ -63,6 +70,29 @@ public class Game {
 				}
 			}
 		}
+	}
+	public int getStage() {
+		return stage;
+	}
+
+	public void setStage(int stage) {
+		this.stage = stage;
+	}
+
+	// Call this after a win by white
+	public void advanceStage() {
+		this.stage++;
+		this.board.grow();
+		this.board.setupInitialBoard();
+		equipAIPieces();
+	}
+
+	// Call this after a loss by white
+	public void resetStage() {
+		this.stage = 1;
+		this.board = new Board(6);
+		this.board.setupInitialBoard();
+		equipAIPieces();
 	}
 
 	// --- Getters / Setters ---
@@ -99,8 +129,10 @@ public class Game {
 	 * Returns true if the move executed and piece moved; false if capture was blocked.
 	 */
 	public boolean movePieceWithCapture(Position from, Position to) {
+		// Prevent moving from or to a void tile
+		if (!board.isValid(from) || !board.isValid(to)) return false;
 		Piece mover = board.getPieceAt(from);
-		if (mover == null || !board.isValid(to)) return false;
+		if (mover == null) return false;
 		Piece target = board.getPieceAt(to);
 		if (target == null) {
 			board.movePiece(from, to);
@@ -164,6 +196,27 @@ public class Game {
 			setMessage("Invalid move coordinates");
 			return;
 		}
+		
+		// Validate that the piece at 'from' can legally move to 'to'
+		Piece movingPiece = board.getPieceAt(from);
+		if (movingPiece == null) {
+			setMessage("No piece at source position");
+			return;
+		}
+		
+		// Check if current player matches the piece color
+		if (movingPiece.getColor() != currentPlayer) {
+			setMessage("Not your turn or wrong piece color");
+			return;
+		}
+		
+		// Check if the destination is in the piece's valid moves
+		Set<Position> validMoves = movingPiece.getValidMoves(board, from);
+		if (!validMoves.contains(to)) {
+			setMessage("Illegal move for this piece");
+			return;
+		}
+		
 		boolean moved = movePieceWithCapture(from, to);
 		if (moved) {
 			currentPlayer = Piece.PieceColor.BLACK;

@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const boardContainer = document.getElementById('board-container');
     const statusMessage = document.getElementById('status-message');
     const currentPlayerSpan = document.getElementById('current-player');
+    const stageNumber = document.getElementById('stage-number');
 
     let gameId = null;
     let selectedSquare = null;
@@ -102,7 +103,16 @@ document.addEventListener('DOMContentLoaded', () => {
             statusMessage.textContent = gameState.message;
             currentPlayerSpan.textContent = gameState.currentPlayer;
         }
+        if (stageNumber) {
+            stageNumber.textContent = gameState.stage || 1;
+        }
 
+        // If voidTiles is not present, treat all as non-void
+        const voidTiles = gameState.voidTiles || Array.from({length: gameState.board.length}, () => Array(gameState.board.length).fill(false));
+        window.lastVoidTiles = voidTiles;
+        // Set board grid size dynamically
+        boardContainer.style.gridTemplateColumns = `repeat(${gameState.board.length}, 50px)`;
+        boardContainer.style.gridTemplateRows = `repeat(${gameState.board.length}, 50px)`;
         for (let r = 0; r < gameState.board.length; r++) {
             for (let c = 0; c < gameState.board[r].length; c++) {
                 const square = document.createElement('div');
@@ -111,16 +121,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 square.dataset.row = r;
                 square.dataset.col = c;
 
+                if (voidTiles[r] && voidTiles[r][c]) {
+                    square.classList.add('void-tile');
+                    square.style.background = 'transparent';
+                    square.style.pointerEvents = 'none';
+                }
+
                 const piece = gameState.board[r][c];
                 if (piece) {
                     const pieceElement = document.createElement('span');
                     pieceElement.classList.add('piece');
                     pieceElement.textContent = piece.symbol;
-                    pieceElement.style.color = piece.color === 'WHITE' ? '#FFFFFF' : '#AAAAAA'; // White for White, Gray for Black
+                    pieceElement.style.color = piece.color === 'WHITE' ? '#FFFFFF' : '#AAAAAA';
                     square.appendChild(pieceElement);
                 }
 
-                if (!gameState.isGameOver) {
+                if (!gameState.isGameOver && !(voidTiles[r] && voidTiles[r][c])) {
                     square.addEventListener('click', () => onSquareClick(r, c, piece));
                 }
                 boardContainer.appendChild(square);
@@ -138,7 +154,15 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
+        const voidTiles = window.lastVoidTiles || [];
+        if (voidTiles[row] && voidTiles[row][col]) return;
         if (selectedSquare) {
+            // Prevent moving from or to a void tile
+            if ((voidTiles[selectedSquare.row] && voidTiles[selectedSquare.row][selectedSquare.col]) || (voidTiles[row] && voidTiles[row][col])) {
+                selectedSquare = null;
+                clearHighlights();
+                return;
+            }
             // Second click: attempt to move
             const move = {
                 from: { row: selectedSquare.row, col: selectedSquare.col },
