@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 loader.addEventListener('transitionend', () => {
                     loader.style.display = 'none';
                     mainContent.style.display = 'flex';
-                    muteButton.style.display = 'flex';
                     
                     newGame();
                          // Start the game after the loader is gone
@@ -36,21 +35,25 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('matrix-canvas');
     const ctx = canvas.getContext('2d');
 
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
     const katakana = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン';
     const latin = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     const nums = '0123456789';
     const alphabet = katakana + latin + nums;
 
     const fontSize = 16;
-    const columns = canvas.width / fontSize;
-    const rainDrops = [];
+    let columns = 0;
+    let rainDrops = [];
 
-    for (let x = 0; x < columns; x++) {
-        rainDrops[x] = 1;
+    function resizeMatrix() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        columns = Math.max(1, Math.floor(canvas.width / fontSize));
+        rainDrops = new Array(columns).fill(1);
     }
+
+    // Initialize and keep canvas in sync with window size
+    window.addEventListener('resize', resizeMatrix);
+    resizeMatrix();
 
     const drawMatrix = () => {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
@@ -179,47 +182,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Initialize ---
     setInterval(drawMatrix, 50); // Start Matrix rain
-    // Show splash first; start boot sequence after user interaction to allow audio playback
-    const splash = document.getElementById('splash');
-    const playButton = document.getElementById('play-button');
-    const bgAudio = document.getElementById('bg-audio');
-
-    function startGame() {
-        // play audio (user gesture enabled)
-        if (bgAudio) {
-            bgAudio.play().catch(() => {});
-        }
-        // hide splash and show loader, then start boot sequence
-        if (splash) {
-            splash.style.transition = 'opacity 0.25s';
-            splash.style.opacity = '0';
-            splash.addEventListener('transitionend', () => {
-                splash.style.display = 'none';
-                loader.style.display = 'block';
-                showNextLine();
-            }, { once: true });
-        } else {
-            loader.style.display = 'block';
-            showNextLine();
-        }
-    }
-
-    // Mute button logic
-    const muteButton = document.getElementById('mute-button');
-    if (muteButton) {
-        muteButton.addEventListener('click', () => {
-            if (bgAudio) {
-                bgAudio.muted = !bgAudio.muted;
-                muteButton.classList.toggle('muted');
-                muteButton.textContent = bgAudio.muted ? '🔇' : '🔊';
-            }
-        });
-    }
-
-    if (playButton) playButton.addEventListener('click', startGame);
-    if (splash) splash.addEventListener('click', (e) => {
-        // prevent double-trigger when clicking the button
-        if (e.target !== playButton) startGame();
-    });
+    showNextLine(); // Start boot sequence
 
 });

@@ -17,6 +17,8 @@ import com.royalhackaway.checkmatedungeon.promptengineering.AICommunication;
   merged in later.
 */
 public class Game {
+	private int ante;    // Current ante (1-8)
+	private int stage;   // Current stage within ante (1-4)
 
 	// --- Core state used by GameService and serialization ---
 	private String gameId;
@@ -43,11 +45,9 @@ public class Game {
 
 	public Game(String gameId) {
 		this.gameId = gameId;
-<<<<<<< HEAD
 		this.aiCommunication = new AICommunication();
+		this.ante = 1;
 		this.stage = 1;
-=======
->>>>>>> parent of 0370ca7 (CHESS IS WORKING)
 		this.board = new Board(6);
 		this.board.setupInitialBoard();
 
@@ -85,6 +85,8 @@ public class Game {
 	public List<RewardGenerator.RewardOption> getAvailableRewards() { return availableRewards; }
 	public PowerUp getPowerUpToSacrifice() { return powerUpToSacrifice; }
 	public Player getWhitePlayer() { return whitePlayer; }
+	public int getAnte() { return ante; }
+	public int getStage() { return stage; }
 	public void setMessage(String m) { this.message = m; }
 	public void setCurrentPlayer(Piece.PieceColor p) { this.currentPlayer = p; }
 	public void setHasExtraMove(boolean v) { this.hasExtraMove = v; }
@@ -101,6 +103,49 @@ public class Game {
 			}
 		}
 		return null;
+	}
+
+	/**
+	 * Check if all AI (BLACK) pieces have been defeated.
+	 */
+	private boolean areAllAIPiecesDefeated() {
+		for (int r = 0; r < board.getBoardSize(); r++) {
+			for (int c = 0; c < board.getBoardSize(); c++) {
+				Piece p = board.getPieceAt(new Position(r, c));
+				if (p != null && p.getColor() == Piece.PieceColor.BLACK) {
+					return false;
+				}
+			}
+		}
+		return true;
+	}
+
+	/**
+	 * Progress to the next stage. If current stage is 4, progress to next ante.
+	 * Handles board growth, AI piece placement, and reward generation.
+	 */
+	public void progressToNextStage() {
+		if (stage < 4) {
+			// Move to next stage within current ante
+			stage++;
+			board.grow(); // Grow board by 1 row and 1 column
+			board.addAIPiecesForNewAnte(ante, stage);
+			availableRewards = RewardGenerator.generateRewards(ante, stage);
+			setMessage("Stage " + stage + " of Ante " + ante + " - New enemies appeared!");
+		} else if (ante < 8) {
+			// Move to next ante
+			ante++;
+			stage = 1;
+			board.grow(); // Grow board for new ante
+			board.addAIPiecesForNewAnte(ante, stage);
+			availableRewards = RewardGenerator.generateRewards(ante, stage);
+			setMessage("Ante " + ante + " - Stage 1 - New enemies appeared!");
+		} else {
+			// Game won!
+			gameOver = true;
+			winner = Piece.PieceColor.WHITE;
+			setMessage("Victory! You defeated all 8 antes!");
+		}
 	}
 
 	/**
@@ -206,6 +251,11 @@ public class Game {
 		if (moved) {
 			currentPlayer = Piece.PieceColor.BLACK;
 			performAITurn();
+			
+			// Check if all AI pieces have been defeated after AI turn
+			if (areAllAIPiecesDefeated()) {
+				progressToNextStage();
+			}
 		}
 	}
 

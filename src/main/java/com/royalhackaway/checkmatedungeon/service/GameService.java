@@ -42,7 +42,9 @@ public class GameService {
                 game.getCurrentFlowState(),
                 game.getAvailableRewards(),
                 game.getPowerUpToSacrifice(),
-                game.getWhitePlayer()
+                game.getWhitePlayer(),
+                game.getAnte(),
+                game.getStage()
         );
     }
 

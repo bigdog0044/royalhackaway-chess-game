@@ -14,8 +14,10 @@ public class GameState {
     private final List<RewardGenerator.RewardOption> availableRewards;
     private final PowerUp powerUpToSacrifice;
     private final Player whitePlayer; // To expose player's reserve pieces and spell slots
+    private final int ante;
+    private final int stage;
 
-    public GameState(String gameId, Board board, Piece.PieceColor currentPlayer, String message, boolean isGameOver, Piece.PieceColor winner, GameFlowState currentFlowState, List<RewardGenerator.RewardOption> availableRewards, PowerUp powerUpToSacrifice, Player whitePlayer) {
+    public GameState(String gameId, Board board, Piece.PieceColor currentPlayer, String message, boolean isGameOver, Piece.PieceColor winner, GameFlowState currentFlowState, List<RewardGenerator.RewardOption> availableRewards, PowerUp powerUpToSacrifice, Player whitePlayer, int ante, int stage) {
         this.gameId = gameId;
         // A simplified representation of the board for the frontend
         this.board = new Piece[board.getBoardSize()][board.getBoardSize()];
@@ -32,6 +34,8 @@ public class GameState {
         this.availableRewards = availableRewards;
         this.powerUpToSacrifice = powerUpToSacrifice;
         this.whitePlayer = whitePlayer;
+        this.ante = ante;
+        this.stage = stage;
     }
 
     // Getters for serialization to JSON by Spring Web
@@ -73,6 +77,14 @@ public class GameState {
 
     public Player getWhitePlayer() {
         return whitePlayer;
+    }
+
+    public int getAnte() {
+        return ante;
+    }
+
+    public int getStage() {
+        return stage;
     }
 
 
