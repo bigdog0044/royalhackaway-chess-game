@@ -178,35 +178,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Initialize ---
     setInterval(drawMatrix, 50); // Start Matrix rain
-    // Show splash first; start boot sequence after user interaction to allow audio playback
-    const splash = document.getElementById('splash');
-    const playButton = document.getElementById('play-button');
-    const bgAudio = document.getElementById('bg-audio');
-
-    function startGame() {
-        // play audio (user gesture enabled)
-        if (bgAudio) {
-            bgAudio.play().catch(() => {});
-        }
-        // hide splash and show loader, then start boot sequence
-        if (splash) {
-            splash.style.transition = 'opacity 0.25s';
-            splash.style.opacity = '0';
-            splash.addEventListener('transitionend', () => {
-                splash.style.display = 'none';
-                loader.style.display = 'block';
-                showNextLine();
-            }, { once: true });
-        } else {
-            loader.style.display = 'block';
-            showNextLine();
-        }
-    }
-
-    if (playButton) playButton.addEventListener('click', startGame);
-    if (splash) splash.addEventListener('click', (e) => {
-        // prevent double-trigger when clicking the button
-        if (e.target !== playButton) startGame();
-    });
+    showNextLine(); // Start boot sequence
 
 });
